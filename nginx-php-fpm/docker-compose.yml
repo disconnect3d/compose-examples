@@ -9,6 +9,8 @@ services:
       - 80:80
     links:
       - fpm
+    volumes:
+      - ./src:/task:ro
 
     # We limit Linux capabilities...
     # see https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
@@ -35,7 +37,7 @@ services:
     # and tries to find the files in this dock, so it must
     # be the same as nginx.root
     volumes:
-      - ./src:/task
+      - ./src:/task:ro
 
     # We limit Linux capabilities...
     # see https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
