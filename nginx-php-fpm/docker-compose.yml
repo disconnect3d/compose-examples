@@ -10,6 +10,17 @@ services:
     links:
       - fpm
 
+    # We limit Linux capabilities...
+    # see https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN  # Make arbitrary changes to file UIDs and GIDs (see chown(2)).
+      - NET_BIND_SERVICE  # Bind a socket to internet domain privileged ports (port numbers less than 1024).
+      - SETUID  # Make arbitrary manipulations of process UIDs.
+      - SETGID  # Make arbitrary manipulations of process GIDs and supplementary GID list.
+
+
   fpm:
     build:
       context: .
@@ -25,4 +36,12 @@ services:
     # be the same as nginx.root
     volumes:
       - ./src:/task
+
+    # We limit Linux capabilities...
+    # see https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID  # Make arbitrary manipulations of process UIDs.
+      - SETGID  # Make arbitrary manipulations of process GIDs and supplementary GID list.
 
