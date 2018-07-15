@@ -1,0 +1,7 @@
+FROM php:fpm
+
+# This should be either development or production
+# as this matches the ./configs/php.ini-* file
+ARG BUILD_TYPE
+
+COPY ./configs/php.ini-${BUILD_TYPE} /usr/local/etc/php/php.ini

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - 80:80
+    links:
+      - fpm
+
+  fpm:
+    build:
+      context: .
+      dockerfile: Dockerfile.phpfpm
+      args:
+        # Switches ./configs/php.ini-* file
+        # set `production` or `development`
+        - BUILD_TYPE=production
+    ports:
+      - 9000
+    # seems like fpm receives the full path from nginx
+    # and tries to find the files in this dock, so it must
+    # be the same as nginx.root
+    volumes:
+      - ./src:/task
+
